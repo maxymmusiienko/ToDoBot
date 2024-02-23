@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-point-number-field
+      author: maksym
+      changes:
+        - addColumn:
+            tableName: list_points
+            columns:
+              - column:
+                  name: point_number
+                  type: BIGINT
+                  constraints:
+                    nullable: false
