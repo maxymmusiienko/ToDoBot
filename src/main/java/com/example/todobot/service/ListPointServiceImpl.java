@@ -35,4 +35,6 @@ public class ListPointServiceImpl implements ListPointService {
     listPoint.setDeleted(true);
     listPointRepository.save(listPoint);
   }
+
+  //todo add update
 }

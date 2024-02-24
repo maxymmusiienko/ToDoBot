@@ -2,6 +2,8 @@ package com.example.todobot;
 
 import com.example.todobot.config.BotConfig;
 import com.example.todobot.constant.Commands;
+import com.example.todobot.service.ListPointServiceImpl;
+import com.example.todobot.service.ListServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -13,6 +15,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
+    private final ListPointServiceImpl listPointService;
+    private final ListServiceImpl listService;
 
     @Override
     public String getBotUsername() {
@@ -37,12 +41,39 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        //todo rewrite this method; seems bad
+        //todo add date stats
         long chatId = update.getMessage().getChatId();
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
-            sendMessage(chatId, messageText);
+            String[] commandsAndPoints = messageText.split(" ");
+            String command = commandsAndPoints[0];
+            String point = getPoint(commandsAndPoints);
+            switch (command) {
+                case Commands.SHOW_COMMAND -> {
+                    String list = listService.prepareList(chatId);
+                    sendMessage(chatId, list);
+                }
+                case Commands.ADD_COMMAND -> {
+                    listPointService.addPoint(chatId, point);
+                    sendMessage(chatId, Commands.ADD_POINT_MESSAGE);
+                }
+                case Commands.DELETE_COMMAND -> {
+                    listPointService.deletePoint(chatId, Long.getLong(point));
+                    sendMessage(chatId, Commands.DELETE_POINT_MESSAGE);
+                }
+                default -> sendMessage(chatId, Commands.INVALID_COMMAND_MESSAGE);
+            }
         } else {
             sendMessage(chatId, Commands.INVALID_COMMAND_MESSAGE);
         }
+    }
+
+    private String getPoint(String[] strings) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 1; i < strings.length; i++) {
+            res.append(strings[i]).append(System.lineSeparator());
+        }
+        return res.toString();
     }
 }
