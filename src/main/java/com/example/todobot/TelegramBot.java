@@ -42,11 +42,13 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         //todo rewrite this method; seems bad
+        //todo update command
         //todo add date stats
         long chatId = update.getMessage().getChatId();
+        final String regex = " ";
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
-            String[] commandsAndPoints = messageText.split(" ");
+            String[] commandsAndPoints = messageText.split(regex);
             String command = commandsAndPoints[0];
             String point = getPoint(commandsAndPoints);
             switch (command) {
@@ -59,9 +61,15 @@ public class TelegramBot extends TelegramLongPollingBot {
                     sendMessage(chatId, Commands.ADD_POINT_MESSAGE);
                 }
                 case Commands.DELETE_COMMAND -> {
-                    listPointService.deletePoint(chatId, Long.getLong(point));
+                    listPointService.deletePoint(chatId, Long.parseLong(point));
                     sendMessage(chatId, Commands.DELETE_POINT_MESSAGE);
                 }
+                case Commands.DONE_COMMAND -> {
+                    listPointService.markPointAsDone(chatId, Long.parseLong(point));
+                    sendMessage(chatId, Commands.DONE_POINT_MESSAGE);
+                }
+                case Commands.START_COMMAND -> sendMessage(chatId, Commands.START_COMMAND_MESSAGE);
+                case Commands.INFO_COMMAND -> sendMessage(chatId, Commands.INFO_COMMAND_MESSAGE);
                 default -> sendMessage(chatId, Commands.INVALID_COMMAND_MESSAGE);
             }
         } else {
@@ -72,8 +80,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     private String getPoint(String[] strings) {
         StringBuilder res = new StringBuilder();
         for (int i = 1; i < strings.length; i++) {
-            res.append(strings[i]).append(System.lineSeparator());
+            res.append(strings[i]).append(" ");
         }
-        return res.toString();
+        return res.toString().trim();
     }
 }

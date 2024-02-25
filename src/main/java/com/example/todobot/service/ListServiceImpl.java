@@ -18,9 +18,9 @@ public class ListServiceImpl implements ListService {
     List<ListPoint> points = listPointRepository.findAllByUserId(userId);
     StringBuilder list = new StringBuilder();
     for (int i = 1; i <= points.size(); i++) {
-      list.append(i).append('.').append(points.get(i - 1));
+      list.append(points.get(i - 1).getPointNumber()).append('.').append(points.get(i - 1).getPointMessage());
       if (points.get(i - 1).isDone()) {
-        list.append("(Done)");
+        list.append('✅');
       }
       list.append(System.lineSeparator());
     }
