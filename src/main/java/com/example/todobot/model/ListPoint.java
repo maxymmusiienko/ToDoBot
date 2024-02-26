@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -31,4 +32,6 @@ public class ListPoint {
     private boolean isDeleted = false;
     @Column(nullable = false)
     private Long pointNumber;
+    private LocalDateTime dateAdded;
+    private LocalDateTime dateDone;
 }

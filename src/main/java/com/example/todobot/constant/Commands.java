@@ -21,4 +21,13 @@ public class Commands {
       /done (number) -> mark point as done
       /show -> look at the current list
       /delete (number) -> delete a point from list""";
+  public static final String STATS_INTRO = "Here are your toDo stats!";
+  public static final String TOTAL_IN_LIST_MESSAGE = "Total points in list: ";
+  public static final String TOTAL_DONE_MESSAGE = "Total points done: ";
+  public static final String FASTEST_DONE_MESSAGE = "Point that took min time: ";
+  public static final String THE_OLDEST_UNDONE_MESSAGE = "The longest pending point: ";
+  public static final String TOTAL_POINTS_TO_BE_DONE_MESSAGE = "Total pending points: ";
+  public static final String ALL_POINTS_DONE_MESSAGE = "You have done all the points, keep going!";
+  public static final String ZERO_DONE_MESSAGE = "You haven`t done any points yet";
+  public static final String STAT_COMMAND = "/stat";
 }

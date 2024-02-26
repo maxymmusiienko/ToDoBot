@@ -70,6 +70,11 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 case Commands.START_COMMAND -> sendMessage(chatId, Commands.START_COMMAND_MESSAGE);
                 case Commands.INFO_COMMAND -> sendMessage(chatId, Commands.INFO_COMMAND_MESSAGE);
+                //todo fix stat
+                case Commands.STAT_COMMAND -> {
+                    String stat = listService.prepareStats(chatId);
+                    sendMessage(chatId, stat);
+                }
                 default -> sendMessage(chatId, Commands.INVALID_COMMAND_MESSAGE);
             }
         } else {

@@ -2,6 +2,7 @@ package com.example.todobot.service;
 
 import com.example.todobot.model.ListPoint;
 import com.example.todobot.repository.ListPointRepository;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,8 @@ public class ListPointServiceImpl implements ListPointService {
     listPoint.setPointMessage(point);
     Long pointNumber = listPointRepository.countListPointsByUserId(userId) + 1;
     listPoint.setPointNumber(pointNumber);
+    LocalDateTime localDateTime = LocalDateTime.now();
+    listPoint.setDateAdded(localDateTime);
     return listPointRepository.save(listPoint);
   }
 
@@ -26,6 +29,8 @@ public class ListPointServiceImpl implements ListPointService {
   public ListPoint markPointAsDone(Long userId, Long pointNumber) {
     ListPoint listPoint = listPointRepository.getListPointByUserIdAndPointNumber(userId, pointNumber);
     listPoint.setDone(true);
+    LocalDateTime localDateTime = LocalDateTime.now();
+    listPoint.setDateDone(localDateTime);
     return listPointRepository.save(listPoint);
   }
 

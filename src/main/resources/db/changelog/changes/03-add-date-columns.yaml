@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-date-columns
+      author: maksym
+      changes:
+        - addColumn:
+            tableName: list_points
+            columns:
+              - column:
+                  name: date_added
+                  type: datetime
+              - column:
+                  name: date_done
+                  type: datetime

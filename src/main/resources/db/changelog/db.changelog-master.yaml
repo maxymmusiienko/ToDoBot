@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/01-create-list-points-table.yaml
   - include:
       file: db/changelog/changes/02-add-point-number-field.yaml
+  - include:
+      file: db/changelog/changes/03-add-date-columns.yaml
