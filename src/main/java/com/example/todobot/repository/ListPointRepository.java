@@ -8,8 +8,5 @@ public interface ListPointRepository extends JpaRepository<ListPoint, Long> {
   ListPoint getListPointByUserIdAndPointNumber(Long userId, Long pointNumber);
   Long countListPointsByUserId(Long userId);
   List<ListPoint> findAllByUserId(Long userId);
-  //todo fix
-  //Long countAllByDoneTrueAndUserId(Long userId);
-  //Long countAllByDoneFalseAndUserId(Long userId);
   Long countAllByUserId(Long userId);
 }

@@ -4,6 +4,7 @@ import com.example.todobot.constant.Commands;
 import com.example.todobot.model.ListPoint;
 import com.example.todobot.repository.ListPointRepository;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -33,10 +34,10 @@ public class ListServiceImpl implements ListService {
 
   @Override
   public String prepareStats(Long userId) {
-    Long donePoints = 4444L;//listPointRepository.countAllByDoneTrueAndUserId(userId);
-    Long undonePoints = 5555L;//listPointRepository.countAllByDoneFalseAndUserId(userId);
     Long totalPoints = listPointRepository.countAllByUserId(userId);
     List<ListPoint> points = listPointRepository.findAllByUserId(userId);
+    Long donePoints = countDone(points);
+    Long undonePoints = totalPoints - donePoints;
     Optional<ListPoint> oldestUndone = getTheOldestUndonePoint(points);
     Optional<ListPoint> fastestDone = getTheFastestDonePoint(points);
     StringBuilder res = new StringBuilder();
@@ -51,7 +52,7 @@ public class ListServiceImpl implements ListService {
       res.append(oldestUndone.get().getPointMessage())
           .append(", ").append(oldestUndone.get().getDateAdded());
     }
-    res.append(System.lineSeparator());
+    res.append(System.lineSeparator()).append(Commands.FASTEST_DONE_MESSAGE);
     if (fastestDone.isEmpty()) {
       res.append(Commands.ZERO_DONE_MESSAGE);
     } else {
@@ -65,13 +66,18 @@ public class ListServiceImpl implements ListService {
   private Optional<ListPoint> getTheOldestUndonePoint(List<ListPoint> points) {
     return points.stream()
         .filter(p -> !p.isDone())
-        .sorted()
-        .findFirst();
+        .max(Comparator.comparing(p -> Duration.between(p.getDateAdded(), LocalDateTime.now())));
   }
 
   private Optional<ListPoint> getTheFastestDonePoint(List<ListPoint> points) {
     return points.stream()
         .filter(ListPoint::isDone)
         .min(Comparator.comparing(p -> Duration.between(p.getDateAdded(), p.getDateDone())));
+  }
+
+  private Long countDone(List<ListPoint> points) {
+    return points.stream()
+        .filter(ListPoint::isDone)
+        .count();
   }
 }
