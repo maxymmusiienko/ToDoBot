@@ -43,7 +43,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         //todo rewrite this method; seems bad
         //todo update command
-        //todo add date stats
         long chatId = update.getMessage().getChatId();
         final String regex = " ";
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -58,19 +57,21 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 case Commands.ADD_COMMAND -> {
                     listPointService.addPoint(chatId, point);
-                    sendMessage(chatId, Commands.ADD_POINT_MESSAGE);
+                    String list = listService.prepareList(chatId);
+                    sendMessage(chatId, Commands.ADD_POINT_MESSAGE + list);
                 }
                 case Commands.DELETE_COMMAND -> {
                     listPointService.deletePoint(chatId, Long.parseLong(point));
-                    sendMessage(chatId, Commands.DELETE_POINT_MESSAGE);
+                    String list = listService.prepareList(chatId);
+                    sendMessage(chatId, Commands.DELETE_POINT_MESSAGE + list);
                 }
                 case Commands.DONE_COMMAND -> {
                     listPointService.markPointAsDone(chatId, Long.parseLong(point));
-                    sendMessage(chatId, Commands.DONE_POINT_MESSAGE);
+                    String list = listService.prepareList(chatId);
+                    sendMessage(chatId, Commands.DONE_POINT_MESSAGE + list);
                 }
                 case Commands.START_COMMAND -> sendMessage(chatId, Commands.START_COMMAND_MESSAGE);
                 case Commands.INFO_COMMAND -> sendMessage(chatId, Commands.INFO_COMMAND_MESSAGE);
-                //todo fix stat
                 case Commands.STAT_COMMAND -> {
                     String stat = listService.prepareStats(chatId);
                     sendMessage(chatId, stat);
@@ -88,5 +89,20 @@ public class TelegramBot extends TelegramLongPollingBot {
             res.append(strings[i]).append(" ");
         }
         return res.toString().trim();
+    }
+
+    private String[] extractParts(String point) {
+        int count = 2;
+        int numberIndex = 0;
+        int pointIndex = 1;
+        String[] parts = new String[count];
+        String[] words = point.split(" ");
+        parts[numberIndex] = words[numberIndex];
+        StringBuilder text = new StringBuilder();
+        for (int i = 1; i < words.length; i++) {
+            text.append(words[i]);
+        }
+        parts[pointIndex] = text.toString();
+        return parts;
     }
 }

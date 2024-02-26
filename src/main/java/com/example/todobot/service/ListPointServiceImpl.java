@@ -3,6 +3,8 @@ package com.example.todobot.service;
 import com.example.todobot.model.ListPoint;
 import com.example.todobot.repository.ListPointRepository;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +20,13 @@ public class ListPointServiceImpl implements ListPointService {
     ListPoint listPoint = new ListPoint();
     listPoint.setUserId(userId);
     listPoint.setPointMessage(point);
-    Long pointNumber = listPointRepository.countListPointsByUserId(userId) + 1;
+    List<ListPoint> points = listPointRepository.findAllByUserId(userId);
+    Long pointNumber;
+    if (points.size() > 0) {
+      pointNumber = points.get(points.size() - 1).getPointNumber() + 1;
+    } else {
+      pointNumber = 1L;
+    }
     listPoint.setPointNumber(pointNumber);
     LocalDateTime localDateTime = LocalDateTime.now();
     listPoint.setDateAdded(localDateTime);
