@@ -5,7 +5,6 @@ import com.example.todobot.model.ListPoint;
 import com.example.todobot.repository.ListPointRepository;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
