@@ -38,12 +38,9 @@ It allows you to add, mark as done, delete, and view your tasks easily. Below ar
 ## **Try the bot**
 
 To try out this Telegram bot and start managing your to-do list, follow these simple steps:
-**1. Access the Bot:**
-* Search for the bot on Telegram by its username CheckListToDoBot.
-**2. Start Interaction:**
-* Start a conversation with the bot by sending a /start command.
-**3. Follow Instructions:**
-* Follow the instructions provided by the bot in response to your commands.
+* Access the Bot: search for the bot on Telegram by its username CheckListToDoBot.
+* Start Interaction: start a conversation with the bot by sending a /start command.
+* Follow Instructions: follow the instructions provided by the bot in response to your commands.
 
 ## **Contact information**
 
