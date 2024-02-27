@@ -21,12 +21,12 @@ It allows you to add, mark as done, delete, and view your tasks easily. Below ar
 * **Usage:** /delete 3
 
 ### **5./stat**
-**Description:** See unique statistics of your to-do list.
-**Usage:** /stat
+* **Description:** See unique statistics of your to-do list.
+* **Usage:** /stat
 
 ### **6./info**
-**Description:** Display information about all available commands.
-**Usage:** /info
+* **Description:** Display information about all available commands.
+* **Usage:** /info
 
 ## **Technologies used**
 
