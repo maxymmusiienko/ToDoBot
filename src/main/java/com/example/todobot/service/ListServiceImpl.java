@@ -5,6 +5,8 @@ import com.example.todobot.model.ListPoint;
 import com.example.todobot.repository.ListPointRepository;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -50,15 +52,15 @@ public class ListServiceImpl implements ListService {
       res.append(Commands.ALL_POINTS_DONE_MESSAGE);
     } else {
       res.append(oldestUndone.get().getPointMessage())
-          .append(", ").append(oldestUndone.get().getDateAdded());
+          .append(", ").append(oldestUndone.get().getDateAdded().toLocalDate());
     }
     res.append(System.lineSeparator()).append(Commands.FASTEST_DONE_MESSAGE);
     if (fastestDone.isEmpty()) {
       res.append(Commands.ZERO_DONE_MESSAGE);
     } else {
       res.append(fastestDone.get().getPointMessage())
-          .append(", ").append(fastestDone.get().getDateAdded())
-          .append(" - ").append(fastestDone.get().getDateDone());
+          .append(", ").append(ChronoUnit.DAYS.between(fastestDone.get().getDateAdded().toLocalDate(),
+              fastestDone.get().getDateDone().toLocalDate())).append(" days");
     }
     return res.toString();
   }
