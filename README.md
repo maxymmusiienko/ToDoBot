@@ -33,7 +33,6 @@ It allows you to add, mark as done, delete, and view your tasks easily. Below ar
 * **Spring Boot:** Provides a robust framework for building enterprise-level applications.
 * **Spring Data JPA:** Simplifies the implementation of data access layer by providing JPA-based repositories.
 * **Telegram API:** provides api for creating telegram bots.
-* **Heroku:** used for bot deployment.
 
 ## **Try the bot**
 
